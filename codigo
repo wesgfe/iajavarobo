@@ -1,0 +1,138 @@
+package Ambiente;
+public class Aspirador {
+int posx;
+int posy;
+int energia;
+int capacidadebolsa;
+char[][] lugar = {
+{'A', 'B', 'C', 'D'},
+{'E', 'F', 'G', 'H'},
+{'I', 'J', 'K', 'L'},
+{'M', 'N', 'O', 'P'}
+};
+String[][] area;
+int[] movimentosX = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4};
+int[] movimentosY = {1, 2, 3, 4, 4, 3, 2, 1, 1, 2, 3, 4, 4, 3, 2, 1};
+int movimentoAtual = 0;
+public boolean objetivo() {
+for (int i = 0; i < 4; i++) {
+for (int j = 0; j < 4; j++) {
+if (area[i][j].equals("sujo"))
+return false;
+}
+}
+return true;
+}
+// Posição inicial do robô
+public Aspirador() {
+posx = 0;
+posy = 0;
+energia = 100;
+capacidadebolsa = 0;
+area = new String[][] {
+{ "limpo", "limpo", "sujo", "limpo" },
+{ "limpo", "sujo", "limpo", "sujo" },
+{ "sujo", "limpo", "sujo", "limpo" },
+{ "sujo", "limpo", "sujo", "limpo" }
+};
+}
+// Função do aspirador de limpar o lugar. Aspirar.
+public void aspirar() {
+if (area[posx][posy].equals("sujo")) {
+area[posx][posy] = "limpo";
+capacidadebolsa++;
+energia--;
+System.out.println("Lugar " + lugar[posx][posy] + " limpo ");
+}
+}
+// Mover para cima. Norte
+public void moverParaNorte() {
+if (posx > 0) {
+posx--;
+
+energia--;
+System.out.println("Aspirador de pó moveu para o Norte.");
+}
+}
+// Mover para baixo. Sul
+public void moverParaSul() {
+if (posx < 3) {
+posx++;
+energia--;
+System.out.println("Aspirador de pó moveu para o Sul.");
+}
+}
+// Mover para a direita. Leste
+public void moverParaLeste() {
+if (posy < 3) {
+posy++;
+energia--;
+System.out.println("Aspirador de pó moveu para o Leste.");
+}
+}
+// Mover para a esquerda
+public void moverParaOeste() {
+if (posy > 0) {
+posy--;
+energia--;
+System.out.println("Aspirador de pó moveu para o Oeste.");
+}
+}
+// Robô volta para casa.
+public void voltarParaCasa() {
+while (posx > 0 || posy > 0) {
+if (posx > 0)
+moverParaNorte();
+if (posy > 0)
+moverParaOeste();
+}
+}
+public void acao() {
+if (energia <= 0) {
+System.out.println("Sem energia. Voltando para casa");
+voltarParaCasa();
+energia = 100;
+capacidadebolsa = 0;
+}
+if (capacidadebolsa >= 10) {
+System.out.println("Bolsa cheia. Voltar para casa e esvaziar bolsa");
+voltarParaCasa();
+capacidadebolsa = 0;
+}
+if (area[posx][posy].equals("sujo"))
+aspirar();
+else {
+
+if (movimentoAtual < movimentosX.length) {
+int destinoX = posx + movimentosX[movimentoAtual];
+int destinoY = posy + movimentosY[movimentoAtual];
+movimentoAtual++;
+while (posx != destinoX || posy != destinoY) {
+if (posx < destinoX) {
+moverParaSul();
+} else if (posx > destinoX) {
+moverParaNorte();
+}
+if (posy < destinoY) {
+moverParaLeste();
+} else if (posy > destinoY) {
+moverParaOeste();
+}
+}
+}
+}
+}
+public void executar() {
+while (!objetivo()) {
+acao();
+}
+System.out.println("Todas as áreas limpas.");
+// Depois de limpar todas as áreas, voltar para casa
+voltarParaCasa();
+System.out.println("De volta para casa!");
+}
+public static void main(String[] args) {
+Aspirador aspirador = new Aspirador();
+aspirador.executar();
+}
+}
