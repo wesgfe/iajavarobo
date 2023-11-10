@@ -1,4 +1,5 @@
 package Ambiente;
+
 public class Aspirador {
 int posx;
 int posy;
@@ -10,6 +11,7 @@ char[][] lugar = {
 {'I', 'J', 'K', 'L'},
 {'M', 'N', 'O', 'P'}
 };
+
 String[][] area;
 int[] movimentosX = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4};
 int[] movimentosY = {1, 2, 3, 4, 4, 3, 2, 1, 1, 2, 3, 4, 4, 3, 2, 1};
@@ -23,6 +25,7 @@ return false;
 }
 return true;
 }
+
 // Posição inicial do robô
 public Aspirador() {
 posx = 0;
@@ -36,6 +39,7 @@ area = new String[][] {
 { "sujo", "limpo", "sujo", "limpo" }
 };
 }
+
 // Função do aspirador de limpar o lugar. Aspirar.
 public void aspirar() {
 if (area[posx][posy].equals("sujo")) {
@@ -45,6 +49,7 @@ energia--;
 System.out.println("Lugar " + lugar[posx][posy] + " limpo ");
 }
 }
+
 // Mover para cima. Norte
 public void moverParaNorte() {
 if (posx > 0) {
@@ -54,6 +59,7 @@ energia--;
 System.out.println("Aspirador de pó moveu para o Norte.");
 }
 }
+
 // Mover para baixo. Sul
 public void moverParaSul() {
 if (posx < 3) {
@@ -62,6 +68,7 @@ energia--;
 System.out.println("Aspirador de pó moveu para o Sul.");
 }
 }
+
 // Mover para a direita. Leste
 public void moverParaLeste() {
 if (posy < 3) {
@@ -70,6 +77,7 @@ energia--;
 System.out.println("Aspirador de pó moveu para o Leste.");
 }
 }
+
 // Mover para a esquerda
 public void moverParaOeste() {
 if (posy > 0) {
@@ -78,6 +86,7 @@ energia--;
 System.out.println("Aspirador de pó moveu para o Oeste.");
 }
 }
+
 // Robô volta para casa.
 public void voltarParaCasa() {
 while (posx > 0 || posy > 0) {
@@ -87,6 +96,7 @@ if (posy > 0)
 moverParaOeste();
 }
 }
+
 public void acao() {
 if (energia <= 0) {
 System.out.println("Sem energia. Voltando para casa");
